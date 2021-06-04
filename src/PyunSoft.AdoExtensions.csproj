@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Description>PyunSoft.AdoExtensions is a Nuget package library that adds a small set of data-retrieval extension methods to System.Data.Common.DbCommand.</Description>
+    <Copyright>Copyright (c) 2021 Patrick Gates</Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/patrickbgates/PyunSoft.AdoExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/patrickbgates/PyunSoft.AdoExtensions</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
