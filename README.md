@@ -4,10 +4,10 @@ PyunSoft.AdoExtensions is a Nuget package library that adds a small set of data-
 
 ## Installation
 
-Use the Nuget package manager to install PyunSoft.AdoExtensions.
+Use the Nuget package manager (or your preferred package management tool) to install PyunSoft.AdoExtensions.
 
 ```
-dotnet add package PyunSoft.AdoExtensions
+PM> Install-Package PyunSoft.AdoExtensions
 ```
 
 ## Usage
