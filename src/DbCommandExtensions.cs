@@ -14,6 +14,40 @@ namespace PyunSoft.AdoExtensions
     public static class DbCommandExtensions
     {
         /// <summary>
+        /// Adds a parameter with a specific name and value to this command's parameter
+        /// collection.
+        /// </summary>
+        /// <param name="command">The command whose parameter collection to add..</param>
+        /// <param name="parameterName">The parameter's name.</param>
+        /// <param name="value">The parameter's value.</param>
+        /// <param name="parameterDirection">
+        /// Optional. A value that indicates whether the paramter is input-only,
+        /// bidirectional, output-only, or a stored procedure return value.
+        /// </param>
+        public static void AddParameterWithValue(
+            this DbCommand command,
+            string parameterName,
+            object value,
+            ParameterDirection parameterDirection = ParameterDirection.Input)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            if (parameterName == null)
+            {
+                throw new ArgumentNullException(nameof(parameterName));
+            }
+
+            var parameter = command.CreateParameter();
+            parameter.ParameterName = parameterName;
+            parameter.Value = value;
+            parameter.Direction = parameterDirection;
+            command.Parameters.Add(parameter);
+        }
+
+        /// <summary>
         /// Executes the query and returns the result set as a <see cref="DataTable"/>.
         /// </summary>
         /// <param name="command">The command to execute.</param>
@@ -45,10 +79,10 @@ namespace PyunSoft.AdoExtensions
         /// </param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// At the time of writing, there is no asynchronous counterpart to <see
-        /// cref="DbDataAdapter.Fill"/>. This method uses a <see cref="DbDataAdapter"/>
-        /// as a workaround, and therefore may not peform as well as the synchronous
-        /// method in some situations.
+        /// At the time of writing, there is no asynchronous counterpart to
+        /// <c>DbDataAdapter.Fill</c>. This method uses a <see cref="DbDataReader"/> as a
+        /// workaround, and therefore may not peform as well as the synchronous method in
+        /// some situations.
         /// </remarks>
         public static async Task<DataTable> ExecuteDataTableAsync(this DbCommand command, CancellationToken cancellationToken = default)
         {
@@ -79,7 +113,7 @@ namespace PyunSoft.AdoExtensions
         /// value.
         /// </param>
         /// <returns>
-        /// A dictionary whose members' keys and values correspond to the the result set
+        /// A dictionary whose members' keys and values correspond to the result set
         /// columns specified by <paramref name="keyColumnName"/> and <paramref
         /// name="valueColumnName"/>, respectively.
         /// </returns>
@@ -180,7 +214,7 @@ namespace PyunSoft.AdoExtensions
         /// The name of the column in the query's result set to include in the list.
         /// </param>
         /// <returns>
-        /// A list whose members correspond to the the result set column specified by
+        /// A list whose members correspond to the result set column specified by
         /// <paramref name="columnName"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
@@ -200,7 +234,7 @@ namespace PyunSoft.AdoExtensions
                 data.Add(reader[columnName]);
             }
 
-            return data.Select(datum => (T)Convert.ChangeType(datum, typeof(T))).ToList();
+            return data.ConvertAll(datum => (T)Convert.ChangeType(datum, typeof(T)));
         }
 
         /// <summary>
@@ -242,7 +276,7 @@ namespace PyunSoft.AdoExtensions
                 data.Add(reader[columnName]);
             }
 
-            return data.Select(datum => (T)Convert.ChangeType(datum, typeof(T))).ToList();
+            return data.ConvertAll(datum => (T)Convert.ChangeType(datum, typeof(T)));
         }
 
         /// <summary>
